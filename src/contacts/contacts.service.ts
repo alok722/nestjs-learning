@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { Injectable } from '@nestjs/common';
 import * as fs from 'fs';
 
@@ -31,6 +32,23 @@ export class ContactsService {
         if (this.contacts.length == 0) return 1;
         const ids = this.contacts.map(c => c.id);
         return 1 + Math.max(...ids);
+    }
+
+    addOneContact(contact) {
+        contact.id = this.nextId;
+        this.contacts.push(contact);
+        this.writeToFile();
+        return contact;
+    }
+
+    addManyContacts(contacts) {
+        const nextId = this.nextId;
+        contacts.forEach((element, i) => {
+            element.id = i + nextId;
+        });
+        this.contacts.push(...contacts);
+        this.writeToFile();
+        return contacts;
     }
 
 }

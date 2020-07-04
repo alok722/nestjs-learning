@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import { Controller } from '@nestjs/common';
+import { Controller, Post, Body } from '@nestjs/common';
 import { ContactsService } from './contacts.service';
 
 @Controller('contacts')
@@ -88,5 +88,14 @@ export class ContactsController {
 
 
     constructor(private service: ContactsService) {}
+
+    @Post()
+    addOneContact(@Body() body) {
+        if (body instanceof Array) {
+            return this.service.addManyContacts(body);
+        } else {
+            return this.service.addOneContact(body);
+        }
+    }
 
 }
