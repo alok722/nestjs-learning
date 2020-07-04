@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import { Controller, Post, Body, Get } from '@nestjs/common';
+import { Controller, Post, Body, Get, NotFoundException, Param, Put, Patch, Delete } from '@nestjs/common';
 import { ContactsService } from './contacts.service';
 
 @Controller('contacts')
@@ -101,6 +101,38 @@ export class ContactsController {
     @Get()
     getAllContact() {
         return this.service.getAllContacts();
+    }
+
+    @Get('/:id')
+    getContactById(@Param('id') id) {
+        if (this.service.exists(id)) {
+            return this.service.getOneContact(id);
+        }
+        throw new NotFoundException();
+    }
+
+    @Put('/:id')
+    updateContactById(@Param('id') id, @Body() contact) {
+        if (this.service.exists(id)) {
+            return this.service.updateContact(id, contact);
+        }
+        throw new NotFoundException();
+    }
+
+    @Patch('/:id')
+    updatePartialContactById(@Param('id') id, @Body() contact) {
+        if (this.service.exists(id)) {
+            return this.service.partialUpdateContact(id, contact);
+        }
+        throw new NotFoundException();
+    }
+
+    @Delete('/:id')
+    deleteContact(@Param('id') id) {
+        if (this.service.exists(id)) {
+            return this.service.deleteContact(id);
+        }
+        throw new NotFoundException();
     }
 
 }

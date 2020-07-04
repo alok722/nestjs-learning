@@ -55,4 +55,30 @@ export class ContactsService {
         return [...this.contacts];
     }
 
+    getOneContact(id) {
+        return this.contacts.find(c1 => c1.id == id);
+    }
+
+    updateContact(id, contact) {
+        const index = this.contacts.findIndex(c => c.id == id);
+        contact.id = parseInt(id);
+        this.contacts[index] = {...contact};
+        this.writeToFile();
+        return {...this.contacts[index]};
+    }
+
+    partialUpdateContact(id, contact) {
+        const index = this.contacts.findIndex(c => c.id == id);
+        this.contacts[index] = {...this.contacts[index], ...contact};
+        this.writeToFile();
+        return {...this.contacts[index]};
+    }
+
+    deleteContact(id) {
+        const index = this.contacts.findIndex(c => c.id == id)
+        const deleted = this.contacts.splice(index, 1);
+        this.writeToFile();
+        return deleted[0];
+    }
+
 }
