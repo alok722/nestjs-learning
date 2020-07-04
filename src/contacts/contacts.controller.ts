@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Body, Get } from '@nestjs/common';
 import { ContactsService } from './contacts.service';
 
 @Controller('contacts')
@@ -96,6 +96,11 @@ export class ContactsController {
         } else {
             return this.service.addOneContact(body);
         }
+    }
+
+    @Get()
+    getAllContact() {
+        return this.service.getAllContacts();
     }
 
 }

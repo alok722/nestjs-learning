@@ -51,4 +51,8 @@ export class ContactsService {
         return contacts;
     }
 
+    getAllContacts() {
+        return [...this.contacts];
+    }
+
 }
