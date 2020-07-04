@@ -1,0 +1,13 @@
+Providers in Nest:
+    -> Fundamental and essential concept
+    -> Many basic Nest classes are providers:
+    eg.: Services, Repositories, Factories, Helpers
+    Main Idea:
+        ->Dependency Injection (Object can create various relationship with each other)
+    A provider is class annoted by @Injectable()
+    Scope:
+        Lifetime of a Provider instance
+        Default is 'Singleton'
+        Single shared instance
+        Created during bootstrap, destroyed during shuts down
+        We can also make it request scoped by, @Injectable({ scope: Scope.REQUEST })
