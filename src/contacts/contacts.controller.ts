@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import { Controller, Get, NotFoundException, Param, Body, Post, Put, Patch } from '@nestjs/common';
+import { Controller, Get, NotFoundException, Param, Body, Post, Put, Patch, Delete } from '@nestjs/common';
 
 @Controller('contacts')
 export class ContactsController {
@@ -69,5 +69,15 @@ export class ContactsController {
         }
         this.contacts[index] = {...this.contacts[index], ...contact};
         return {...this.contacts[index]};
+    }
+
+    @Delete('/:id')
+    deleteContact(@Param('id') id): any {
+        const index = this.contacts.findIndex(c => c.id == id)
+        if (index === -1) {
+            throw new NotFoundException();
+        }
+        const deleted = this.contacts.splice(index, 1);
+        return deleted[0];
     }
 }
