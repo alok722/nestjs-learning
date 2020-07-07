@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
+import { Module, NestModule, MiddlewareConsumer, RequestMethod } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { ContactsModule } from './contacts/contacts.module';
 import { LoggerMiddleware } from './logger.middleware';
@@ -13,7 +13,12 @@ import { ContactsController } from './contacts/contacts.controller';
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(LoggerMiddleware)
-      .forRoutes(ContactsController);
+    /** Below I have implemented middlware for all the routes of Contact controller */
+      // .forRoutes(ContactsController);
+    /** Below I have implemented for only get request of the routes of Contact controller */
+      .forRoutes({
+        path: 'contacts', method: RequestMethod.GET
+      })
   }
 
 }
