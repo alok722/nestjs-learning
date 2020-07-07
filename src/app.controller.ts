@@ -1,10 +1,21 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import { Controller, Get, Req, HttpException, Param } from '@nestjs/common';
+import { Controller, Get, Req, HttpException, Param, ForbiddenException } from '@nestjs/common';
 import * as fs from 'fs';
 import { FileNotFoundException } from './utils/file-not-found-exception';
+// import { MyCustomExceptionFilter } from './utils/my-custom-exception.filter';
 
 @Controller()
+// commenting as we have applied at global level
+// @UseFilters(MyCustomExceptionFilter) // Applicable to entire App controller
 export class AppController {
+
+  // Checking whether we are able to override and customize the default exception handler of NEST
+  // Implementing, at individual level
+  @Get('/hello')
+  // @UseFilters(MyCustomExceptionFilter)
+  hello() {
+    throw new ForbiddenException();
+  }
 
   @Get('/:filename')
   sendFile(@Param('filename') filename: string) {
