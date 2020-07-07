@@ -3,7 +3,9 @@ import { Module, NestModule, MiddlewareConsumer, RequestMethod } from '@nestjs/c
 import { AppController } from './app.controller';
 import { ContactsModule } from './contacts/contacts.module';
 import { LoggerMiddleware } from './logger.middleware';
+import { enableCors } from './cors.middleware';
 import { ContactsController } from './contacts/contacts.controller';
+import * as helmet from 'helmet';
 
 @Module({
   imports: [ContactsModule],
@@ -12,13 +14,13 @@ import { ContactsController } from './contacts/contacts.controller';
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(LoggerMiddleware)
+    consumer.apply(helmet(), LoggerMiddleware, enableCors)
     /** Below I have implemented middlware for all the routes of Contact controller */
-      // .forRoutes(ContactsController);
+      .forRoutes(ContactsController);
     /** Below I have implemented for only get request of the routes of Contact controller */
-      .forRoutes({
-        path: 'contacts', method: RequestMethod.GET
-      })
+      // .forRoutes({
+      //   path: 'contacts', method: RequestMethod.GET
+      // })
   }
 
 }
