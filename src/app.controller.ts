@@ -5,6 +5,6 @@ export class AppController {
 
   @Get()
   getHello(): string {
-    return 'Hello World!';
+    return `Try <b><i>/contacts</i></b> instead`;
   }
 }
