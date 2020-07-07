@@ -2,8 +2,8 @@
 import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { ContactsModule } from './contacts/contacts.module';
-import { LoggerMiddleware } from './logger.middleware';
-import { enableCors } from './cors.middleware';
+import { LoggerMiddleware } from './middleware/logger.middleware';
+import { enableCors } from './middleware/cors.middleware';
 import { ContactsController } from './contacts/contacts.controller';
 import * as helmet from 'helmet';
 

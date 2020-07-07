@@ -11,3 +11,6 @@ Providers in Nest:
         Single shared instance
         Created during bootstrap, destroyed during shuts down
         We can also make it request scoped by, @Injectable({ scope: Scope.REQUEST })
+
+Sub-Class of HttpException
+    Eg:  throw new NotFoundException();
