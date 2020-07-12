@@ -14,3 +14,11 @@ Providers in Nest:
 
 Sub-Class of HttpException
     Eg:  throw new NotFoundException();
+
+Built-in pipes
+    ValidationPipe
+    ParseIntPipe
+    ParseBoolPipe
+    ParseArrayPipe
+    ParseUUIDPipe
+    DefaultValuePipe

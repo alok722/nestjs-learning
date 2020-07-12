@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { ExceptionFilter, ArgumentsHost, Catch, HttpException } from "@nestjs/common";
 import { Request, Response } from "express";
 

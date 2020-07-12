@@ -1,12 +1,11 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import { Controller, Post, Body, Get, NotFoundException, Param, Put, Patch, Delete } from '@nestjs/common';
+import { Controller, Post, Body, Get, NotFoundException, Param, Put, Patch, Delete, ParseIntPipe, Query, DefaultValuePipe } from '@nestjs/common';
 import { ContactsService } from './contacts.service';
 
 @Controller('contacts')
 export class ContactsController {
 
     /**
-     * Exploring service based controller.
         contacts = [
             { id: 1, name: 'Alok Raj', email: 'alok.raj@gmail.com' },
             { id: 2, name: 'Ashish Raj', email: 'ashish.raj@gmail.com' },
@@ -84,10 +83,10 @@ export class ContactsController {
             return deleted[0];
         }
     */
-    
 
+    // Exploring service based controller.
 
-    constructor(private service: ContactsService) {}
+    constructor(private service: ContactsService) { }
 
     @Post()
     addOneContact(@Body() body) {
@@ -133,6 +132,39 @@ export class ContactsController {
             return this.service.deleteContact(id);
         }
         throw new NotFoundException();
+    }
+
+    // Exploring Pipes
+    // Converting to Number from String using ParseIntPipe
+
+    contacts = [
+        { id: 1, name: 'Alok Raj', email: 'alok.raj@gmail.com' },
+        { id: 2, name: 'Ashish Raj', email: 'ashish.raj@gmail.com' },
+        { id: 3, name: 'Ankit Raj', email: 'ankit.raj@gmail.com' }
+    ]
+
+    // @UsePipes(ParseIntPipe) -- Method level pipe,, It is executed before DefaultValuePipe
+    @Get('/pipes/test')
+    getAllQuery(@Query('_page', new DefaultValuePipe(1), ParseIntPipe) page, @Query('_limit', new DefaultValuePipe(10), ParseIntPipe) limit): any {
+        return {
+            page: {
+                value: page,
+                type: typeof(page)
+            },
+            limit: {
+                value: limit,
+                type: typeof(limit)
+            }
+        }
+    }
+
+    @Get('pipe/:id')
+    getOne(@Param('id', ParseIntPipe) id): any {
+        const c = this.contacts.find(c1 => c1.id === id);
+        if (!c) {
+            throw new NotFoundException();
+        }
+        return { ...c };
     }
 
 }
