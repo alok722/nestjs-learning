@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import { Controller, Post, Body, Get, NotFoundException, Param, Put, Patch, Delete, ParseIntPipe, Query, DefaultValuePipe } from '@nestjs/common';
+import { Controller, Post, Body, Get, NotFoundException, Param, Put, Patch, Delete, ParseIntPipe, Query, DefaultValuePipe, UsePipes } from '@nestjs/common';
 import { ContactsService } from './contacts.service';
+import { MandatoryFieldsPipes } from 'src/utils/mandatory-field.pipes';
+import { UppercasePipe } from 'src/utils/uppercase.pipe';
 
 @Controller('contacts')
 export class ContactsController {
@@ -165,6 +167,20 @@ export class ContactsController {
             throw new NotFoundException();
         }
         return { ...c };
+    }
+
+    // NOTE:  Validating payload via custom Pipe
+    @Post('/pipes/test')
+    createContact(@Body(new MandatoryFieldsPipes(['name', 'email', 'phone'])) body) {
+        return body;
+    }
+
+    // NOTE: Checking Upper case Pipe
+
+    @Get('pipes/query')
+    @UsePipes(UppercasePipe)
+    query(@Query('city') city, @Query('state') state, @Query('country') country) {
+        return {city, state, country};
     }
 
 }

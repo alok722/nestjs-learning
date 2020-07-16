@@ -22,3 +22,7 @@ Built-in pipes
     ParseArrayPipe
     ParseUUIDPipe
     DefaultValuePipe
+
+Typical usage of pipe
+    Transformation : transform input data to the desired form(eg: from string to integer)
+    Validation : validate the request payload with custom Pipe
