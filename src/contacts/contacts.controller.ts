@@ -1,13 +1,14 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import { Controller, Post, Body, Get, NotFoundException, Param, Put, Patch, Delete, ParseIntPipe, Query, DefaultValuePipe, UsePipes } from '@nestjs/common';
+import { Controller, Post, Body, Get, NotFoundException, Param, Put, Patch, Delete, ParseIntPipe, Query, DefaultValuePipe, UsePipes, ValidationPipe } from '@nestjs/common';
 import { ContactsService } from './contacts.service';
 import { MandatoryFieldsPipes } from 'src/utils/mandatory-field.pipes';
 import { UppercasePipe } from 'src/utils/uppercase.pipe';
+import { Contact } from './contact';
 
 @Controller('contacts')
 export class ContactsController {
 
-    /**
+    /** NOTE : Basic JS CRUD
         contacts = [
             { id: 1, name: 'Alok Raj', email: 'alok.raj@gmail.com' },
             { id: 2, name: 'Ashish Raj', email: 'ashish.raj@gmail.com' },
@@ -86,7 +87,7 @@ export class ContactsController {
         }
     */
 
-    // Exploring service based controller.
+    // NOTE Exploring service based controller.
 
     constructor(private service: ContactsService) { }
 
@@ -136,7 +137,7 @@ export class ContactsController {
         throw new NotFoundException();
     }
 
-    // Exploring Pipes
+    // NOTE Exploring Pipes
     // Converting to Number from String using ParseIntPipe
 
     contacts = [
@@ -145,7 +146,7 @@ export class ContactsController {
         { id: 3, name: 'Ankit Raj', email: 'ankit.raj@gmail.com' }
     ]
 
-    // @UsePipes(ParseIntPipe) -- Method level pipe,, It is executed before DefaultValuePipe
+    // NOTE @UsePipes(ParseIntPipe) -- Method level pipe,, It is executed before DefaultValuePipe
     @Get('/pipes/test')
     getAllQuery(@Query('_page', new DefaultValuePipe(1), ParseIntPipe) page, @Query('_limit', new DefaultValuePipe(10), ParseIntPipe) limit): any {
         return {
@@ -181,6 +182,15 @@ export class ContactsController {
     @UsePipes(UppercasePipe)
     query(@Query('city') city, @Query('state') state, @Query('country') country) {
         return {city, state, country};
+    }
+
+    // NOTE : ValidationPipe Usage
+    // We can verify class validation by disabling global custom filter in main.ts
+    @Post('validationtest')
+    @UsePipes(ValidationPipe)
+    createContactWithValidation(@Body() contact: Contact) {
+        console.log('I am here')
+        return contact;
     }
 
 }
