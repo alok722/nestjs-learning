@@ -5,10 +5,16 @@ import { ContactsModule } from './contacts/contacts.module';
 import { LoggerMiddleware } from './middleware/logger.middleware';
 import { enableCors } from './middleware/cors.middleware';
 import { ContactsController } from './contacts/contacts.controller';
+import { UsersModule } from './users/users.module';
 import * as helmet from 'helmet';
+import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
-  imports: [ContactsModule],
+  imports: [
+    MongooseModule.forRoot('mongodb://localhost:27017/nest-intro'),
+    ContactsModule,
+    UsersModule
+  ],
   controllers: [AppController],
   providers: [],
 })

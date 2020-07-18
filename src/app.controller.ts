@@ -17,7 +17,7 @@ export class AppController {
     throw new ForbiddenException();
   }
 
-  @Get('/:filename')
+  @Get('/file/:filename')
   sendFile(@Param('filename') filename: string) {
     try {      
       const content = fs.readFileSync(filename, 'utf-8');
