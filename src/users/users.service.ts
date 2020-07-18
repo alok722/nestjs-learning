@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { User } from './user.schema';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
@@ -16,5 +16,17 @@ export class UsersService {
 
     getAllContacts(page: number, limit: number) {
         return this.UserModel.find().limit(limit).skip( (page-1) * limit );
+    }
+
+    async getContactById(_id) {
+        const pr = await this.UserModel.findById(_id);
+        if(!pr) {
+            throw new NotFoundException();
+        }
+        return pr;
+    }
+
+    updateContactById(_id, body) {
+        return this.UserModel.findByIdAndUpdate( _id, body);
     }
 }
