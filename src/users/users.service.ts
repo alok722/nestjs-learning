@@ -14,11 +14,11 @@ export class UsersService {
         return c.save();
     }
 
-    getAllContacts(page: number, limit: number) {
+    getAllUsers(page: number, limit: number) {
         return this.UserModel.find().limit(limit).skip( (page-1) * limit );
     }
 
-    async getContactById(_id) {
+    async getUserById(_id) {
         const pr = await this.UserModel.findById(_id);
         if(!pr) {
             throw new NotFoundException();
@@ -26,7 +26,11 @@ export class UsersService {
         return pr;
     }
 
-    updateContactById(_id, body) {
+    updateUserById(_id, body) {
         return this.UserModel.findByIdAndUpdate( _id, body);
+    }
+
+    deleteUserById(_id) {
+        return this.UserModel.deleteOne({_id});
     }
 }
