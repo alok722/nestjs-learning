@@ -30,6 +30,10 @@ export class UsersService {
         return this.UserModel.findByIdAndUpdate( _id, body);
     }
 
+    partialUpdateUserById(_id, props) {
+        return this.UserModel.update( { _id }, { $set: props });
+    }
+    
     deleteUserById(_id) {
         return this.UserModel.deleteOne({_id});
     }

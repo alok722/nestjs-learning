@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import { Controller, Post, Body, UsePipes, ValidationPipe, Get, Query, DefaultValuePipe, ParseIntPipe, Param, Put, HttpCode, HttpStatus, BadRequestException, Delete, NotFoundException } from '@nestjs/common';
+import { Controller, Post, Body, UsePipes, ValidationPipe, Get, Query, DefaultValuePipe, ParseIntPipe, Param, Put, HttpCode, HttpStatus, BadRequestException, Delete, NotFoundException, Patch, HttpException } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { User } from './user.schema';
 
@@ -32,6 +32,17 @@ export class UsersController {
             await this.service.updateUserById(_id, body);
         } catch (error) {
             throw new BadRequestException();
+        }
+    }
+
+    @Patch('/:id')
+    @HttpCode(HttpStatus.NO_CONTENT)
+    async partialUpdateUserById(@Param('id') _id: string, @Body() props) {
+        try {
+            await this.service.partialUpdateUserById(_id, props);
+        } catch (error) {
+            console.log(error);
+            throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
